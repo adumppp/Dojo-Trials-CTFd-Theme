@@ -7,8 +7,6 @@ Dark ink + ronin-red design, a cursor-reactive dot grid background, and full com
 
 ## Screenshots
 
-> **TODO:** Replace the placeholders below with your own screenshots. Drop the images into `screenshots/` and keep the filenames as-is (or update the paths).
-
 | Page | Preview |
 | --- | --- |
 | Landing page (hero + countdown) | ![Landing page](screenshots/landing.png) |
