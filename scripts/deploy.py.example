@@ -1,0 +1,32 @@
+import tarfile, io, paramiko, sys
+
+# Edit these for your server
+HOST = "192.168.119.130"
+USER = "adam"
+PW = "adam"
+THEME_SRC = "./cyber-ronin"           # local theme folder
+THEME_DST = "/home/adam/CTFd/CTFd/themes/"  # host path mounted into the CTFd container
+COMPOSE_DIR = "/home/adam/CTFd"       # where docker-compose.yml lives
+
+buf = io.BytesIO()
+with tarfile.open(fileobj=buf, mode="w:gz") as tf:
+    tf.add(THEME_SRC, arcname="cyber-ronin")
+buf.seek(0)
+
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect(HOST, username=USER, password=PW, timeout=20)
+sftp = ssh.open_sftp()
+sftp.putfo(buf, "/tmp/cyber-ronin.tar.gz")
+sftp.close()
+
+for c in [
+    f"rm -rf {THEME_DST}/cyber-ronin",
+    f"tar -xzf /tmp/cyber-ronin.tar.gz -C {THEME_DST}/",
+    f"chmod -R a+rX {THEME_DST}/cyber-ronin",
+    f"cd {COMPOSE_DIR} && docker compose restart",
+]:
+    _, out, err = ssh.exec_command(c, timeout=180)
+    print(out.read().decode(), err.read().decode())
+ssh.close()
+print("Done. Flush Redis and hard-refresh your browser if needed.")

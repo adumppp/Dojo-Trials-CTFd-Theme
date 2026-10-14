@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="page-head" style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div>
+        <div class="eyebrow"><span style="width:6px;height:6px;background:#ff4655;display:inline-block"></span>THE CODE</div>
+        <h1 style="letter-spacing:-.035em;margin:10px 0;font-size:38px;font-weight:750;line-height:1.15">Rules of the arena</h1>
+        <p class="text-muted" style="font-size:14px">A fair competition starts with a shared understanding.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8">
+        {% for num, title, desc in [
+          ('01', 'Stay within the scope', 'Only interact with the challenge targets explicitly provided by the organizers. The CTF platform, other teams, and unrelated infrastructure are out of scope.'),
+          ('02', 'Keep the playing field fair', 'Do not share flags or solutions with other teams while the event is running. Collaboration within your own team is encouraged.'),
+          ('03', 'Respect the infrastructure', 'Avoid denial-of-service attacks, excessive automated requests, and actions that could disrupt the experience for other participants.'),
+          ('04', "Ask when you're unsure", "If you find a platform issue or need a clarification, contact the organizers through the event's announced support channel."),
+        ] %}
+        <article class="surface mb-3" style="padding:28px;display:flex;gap:24px">
+          <span style="color:#ff4655;font-family:Consolas,monospace;font-size:18px;flex:none">{{ num }}</span>
+          <div>
+            <h2 style="font-weight:650;font-size:18px;margin:0">{{ title }}</h2>
+            <p class="text-muted" style="font-size:14px;line-height:1.8;margin:8px 0 0">{{ desc }}</p>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      <div class="col-md-4">
+        <div class="surface mb-3" style="padding:24px">
+          <div style="color:#ff4655;margin-bottom:16px">
+            <svg class="icon icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V3m0 0c5-5 11 5 16 0v10c-5 5-11-5-16 0"/></svg>
+          </div>
+          <h2 style="font-weight:650;font-size:16px;margin:0">The flag format</h2>
+          <p class="text-muted" style="font-size:12px;margin:8px 0 0">Unless a challenge says otherwise:</p>
+          <code style="display:block;margin-top:16px;padding:12px;background:#0c0e12;border:1px solid #272c35;border-radius:6px;color:#ff5260;font-size:12px;word-break:break-all">ronin{your_flag_here}</code>
+        </div>
+        <div class="notice mb-3">These rules are enforced for the duration of the event. Questions go to the Cyber Ronin organizers.</div>
+        <a href="{{ url_for('challenges.listing') }}" class="btn btn-primary w-100">Enter the arena
+          <svg class="icon"><use href="#rn-arrow"/></svg></a>
+      </div>
+    </div>
+  </div>

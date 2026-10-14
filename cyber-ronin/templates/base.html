@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ title or 'Dojo Trials' }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c0e12">
+  <link rel="shortcut icon" href="{{ Configs.ctf_small_icon }}" type="image/x-icon">
+
+  {{ meta | safe }}
+
+  {% block stylesheets %}
+    {{ Assets.css("assets/scss/main.scss") }}
+  {% endblock %}
+
+  <style>
+    .nav-link{color:#939dad;border-bottom:2px solid transparent;align-items:center;gap:8px;height:76px;padding:0 3px;font-size:13px;transition:color .2s;display:inline-flex}
+    .nav-link:hover{color:#fff}
+    .nav-link.active{color:#fff;border-color:#ff4655}
+  </style>
+
+  {{ Plugins.styles }}
+
+  <script type="text/javascript">
+      window.init = {
+          'urlRoot': "{{ request.script_root }}",
+          'csrfNonce': "{{ Session.nonce }}",
+          'userMode': "{{ Configs.user_mode }}",
+          'userId': {{ Session.id }},
+          'userName': {{ User.name | tojson }},
+          'userEmail': {{ User.email | tojson }},
+          'userVerified': {{ User.verified | tojson }},
+          'teamId': {{ Team.id | tojson }},
+          'teamName': {{ Team.name | tojson }},
+          'start': {{ Configs.start | tojson }},
+          'end': {{ Configs.end | tojson }},
+          'themeSettings': {{ Configs.theme_settings | tojson }},
+          'eventSounds': [
+            "/themes/cyber-ronin/static/sounds/notification.webm",
+            "/themes/cyber-ronin/static/sounds/notification.mp3",
+          ],
+      }
+  </script>
+
+  {{ Configs.theme_header }}
+</head>
+<body>
+<canvas id="bg-fx" aria-hidden="true"></canvas>
+<a href="#main" style="position:fixed;left:16px;top:16px;z-index:100;transform:translateY(-96px);transition:transform .2s" onfocus="this.style.transform='none'" onblur="this.style.transform='translateY(-96px)'" class="btn btn-primary">Skip to content</a>
+{% include "components/navbar.html" %}
+
+<main role="main" id="main">
+  {% block content %}
+  {% endblock %}
+</main>
+
+{% include "components/snackbar.html" %}
+
+<footer class="footer">
+  <div class="container" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;text-align:left">
+    <div style="display:flex;align-items:center;gap:12px">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="#626b79" aria-hidden="true"><path d="M25 5 29 28 40 33 35 40 18 30 15 9ZM75 5 71 28 60 33 65 40 82 30 85 9ZM50 18 68 35 72 48 50 41 28 48 32 35ZM28 51 47 48 44 60 30 64ZM72 51 53 48 56 60 70 64ZM46 62 50 56 54 62 50 69ZM30 69 43 68 50 77 57 68 70 69 61 85 50 94 39 85ZM20 44 24 61 9 58 14 46ZM80 44 76 61 91 58 86 46ZM22 67 31 78 22 86 13 72ZM78 67 69 78 78 86 87 72Z"/></svg>
+      <span style="font:10px Consolas,monospace;letter-spacing:.18em;color:#818da0">DOJO TRIALS · BY CYBER RONIN · TVETMARA SIK INTERNAL CTF COMPETITION</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;font-size:12px;color:#818da0;align-items:center">
+      {% for page in Plugins.user_menu_pages %}
+        <a href="{{ page.route }}" {% if page.link_target %}target="{{ page.link_target }}"{% endif %} style="color:#818da0">{{ page.title }}</a>
+      {% endfor %}
+      <a href="https://ctfd.io" style="color:#818da0"><small>{% trans %}Powered by CTFd{% endtrans %}</small></a>
+    </div>
+  </div>
+</footer>
+
+{% include "components/notifications.html" %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/page.js") }}
+{% endblock %}
+
+{{ Plugins.scripts }}
+
+{{ Configs.theme_footer }}
+
+<script>
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var canvas = document.getElementById('bg-fx');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dots = [], W = 0, H = 0, dpr = 1;
+  var mouse = {x: innerWidth/2, y: innerHeight/3, active: false};
+  var GAP = 26, RADIUS = 260, PULL = 0.55;
+
+  function build(){
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    dots = [];
+    for (var y = GAP/2; y < H; y += GAP)
+      for (var x = GAP/2; x < W; x += GAP)
+        dots.push({bx: x, by: y, ox: 0, oy: 0});
+  }
+
+  function frame(){
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < dots.length; i++){
+      var d = dots[i];
+      var tx = 0, ty = 0, glow = 0;
+      if (mouse.active){
+        var dx = mouse.x - d.bx, dy = mouse.y - d.by;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < RADIUS && dist > 0.001){
+          var f = 1 - dist / RADIUS;
+          f = f * f;
+          tx = dx * f * PULL;
+          ty = dy * f * PULL;
+          glow = f;
+        }
+      }
+      d.ox += (tx - d.ox) * 0.12;
+      d.oy += (ty - d.oy) * 0.12;
+      var x = d.bx + d.ox, y = d.by + d.oy;
+      var a = 0.28 + glow * 0.6;
+      var r = 1.1 + glow * 0.9;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, 6.2832);
+      ctx.fillStyle = 'rgba(255,' + Math.round(92 - glow * 30) + ',' + Math.round(107 - glow * 30) + ',' + a.toFixed(3) + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  addEventListener('pointermove', function(e){
+    mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true;
+  }, {passive: true});
+  addEventListener('pointerleave', function(){ mouse.active = false; });
+  addEventListener('resize', build);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) build(); });
+  build();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

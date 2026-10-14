@@ -1,0 +1,45 @@
+﻿{% extends "base.html" %}
+{% from "macros/auth.html" import auth_card %}
+
+{% block content %}
+  <div class="container">
+    {% call auth_card('arrow', 'DOJO TRIALS / ACCOUNT', 'Welcome back.', 'Your next flag is waiting.') %}
+      {% include "components/errors.html" %}
+
+      {% if integrations.mlc() %}
+        <a class="btn btn-secondary w-100 mb-3" href="{{ url_for('auth.oauth_login') }}">
+          Login with Major League Cyber
+        </a>
+      {% endif %}
+
+      {% with form = Forms.auth.LoginForm() %}
+        <form method="post" accept-charset="utf-8">
+          <div class="field">
+            {{ form.name.label() }}
+            {{ form.name(value=name, autocomplete="username email") }}
+          </div>
+
+          <div class="field">
+            {{ form.password.label() }}
+            {{ form.password(value=password, autocomplete="current-password") }}
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;margin-bottom:20px">
+            <a class="link" style="font-size:12px" href="{{ url_for('auth.reset_password') }}">
+              {% trans %}Forgot your password?{% endtrans %}
+            </a>
+          </div>
+
+          {{ form.submit(class="btn btn-primary w-100") }}
+          {{ form.nonce() }}
+        </form>
+      {% endwith %}
+
+      {% if registration_visible() %}
+        <p class="text-muted text-center" style="font-size:12px;margin-top:24px">
+          New to the arena? <a class="link" href="{{ url_for('auth.register') }}">{% trans %}Create an account{% endtrans %}</a>
+        </p>
+      {% endif %}
+    {% endcall %}
+  </div>
+{% endblock %}

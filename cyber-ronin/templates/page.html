@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if request.path == "/" or request.path == "/index" %}
+    {% include "components/landing.html" %}
+  {% elif request.path == "/rules" %}
+    {% include "rules.html" %}
+  {% else %}
+  <div class="container">
+    <article class="surface prose-content" style="padding:36px;margin-top:30px">
+      {{ content | safe }}
+    </article>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/page.js") }}
+{% endblock %}

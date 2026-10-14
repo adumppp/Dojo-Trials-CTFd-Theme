@@ -1,0 +1,11 @@
+{% macro auth_card(icon, eyebrow, title, subtitle) -%}
+<section class="auth-card surface">
+  <div class="auth-icon">
+    <svg class="icon icon-lg"><use href="#rn-{{ icon }}"/></svg>
+  </div>
+  <div class="eyebrow mb-3">{{ eyebrow }}</div>
+  <h1>{{ title }}</h1>
+  {% if subtitle %}<p class="text-muted" style="font-size:14px;margin:12px 0 28px">{{ subtitle }}</p>{% endif %}
+  {{ caller() }}
+</section>
+{%- endmacro %}

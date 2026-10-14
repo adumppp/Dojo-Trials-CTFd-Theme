@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "macros/auth.html" import auth_card %}
+
+{% block content %}
+  <div class="container">
+    {% call auth_card('users', 'AN ALLIANCE AWAITS', "You're invited.", '') %}
+      {% include "components/errors.html" %}
+
+      <p class="text-muted" style="font-size:14px;margin-top:-12px">
+        {% trans %}Welcome to{% endtrans %} <strong class="text-white">{{ team.name }}</strong>!
+        {% trans %}Click the button below to join the team!{% endtrans %}
+      </p>
+
+      {% with form = Forms.teams.TeamInviteJoinForm() %}
+        <form method="POST">
+          {{ form.submit(class="btn btn-primary w-100") }}
+          {{ form.nonce() }}
+        </form>
+      {% endwith %}
+
+      <p class="text-muted text-center" style="font-size:12px;margin-top:20px">
+        Or <a class="link" href="{{ url_for('teams.new') }}">click here</a> if you'd prefer to create your own team.
+      </p>
+    {% endcall %}
+  </div>
+{% endblock %}

@@ -1,0 +1,58 @@
+﻿{% extends "base.html" %}
+{% from "macros/auth.html" import auth_card %}
+
+{% block content %}
+  <div class="container">
+    {% call auth_card('flag', 'DOJO TRIALS / ACCOUNT', 'Become a ronin.', 'Create your account and enter the arena.') %}
+      {% include "components/errors.html" %}
+
+      {% if integrations.mlc() %}
+        <a class="btn btn-secondary w-100 mb-3" href="{{ url_for('auth.oauth_login') }}">
+          Login with Major League Cyber
+        </a>
+      {% endif %}
+
+      {% with form = Forms.auth.RegistrationForm() %}
+        {% from "macros/forms.html" import render_extra_fields %}
+        <form method="post" accept-charset="utf-8" role="form">
+          <div class="field">
+            {{ form.name.label() }}
+            {{ form.name(value=name, autocomplete="username") }}
+            <small>{% trans %}Your username on the site{% endtrans %}</small>
+          </div>
+
+          <div class="field">
+            {{ form.email.label() }}
+            {{ form.email(value=email, autocomplete="email") }}
+            <small>{% trans %}Never shown to the public{% endtrans %}</small>
+          </div>
+
+          <div class="field">
+            {{ form.password.label() }}
+            {{ form.password(value=password, autocomplete="new-password") }}
+            <small>{% trans %}Password used to log into your account{% endtrans %}</small>
+          </div>
+
+          {{ render_extra_fields(form.extra) }}
+
+          {{ form.submit(class="btn btn-primary w-100") }}
+          {{ form.nonce() }}
+
+          {% if Configs.tos_or_privacy %}
+            <p class="text-muted text-center" style="font-size:11px;margin-top:16px">
+              {% trans trimmed privacy_link=Configs.privacy_link, tos_link=Configs.tos_link %}
+              By registering, you agree to the
+              <a href="{{ privacy_link }}" target="_blank" class="link">privacy policy</a>
+              and <a href="{{ tos_link }}" target="_blank" class="link">terms of service</a>
+              {% endtrans %}
+            </p>
+          {% endif %}
+        </form>
+      {% endwith %}
+
+      <p class="text-muted text-center" style="font-size:12px;margin-top:24px">
+        Already a ronin? <a class="link" href="{{ url_for('auth.login') }}">{% trans %}Log in{% endtrans %}</a>
+      </p>
+    {% endcall %}
+  </div>
+{% endblock %}

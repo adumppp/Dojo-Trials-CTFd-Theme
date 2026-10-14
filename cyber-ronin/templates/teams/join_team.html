@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "macros/auth.html" import auth_card %}
+
+{% block content %}
+  <div class="container">
+    {% call auth_card('users', 'BUILD YOUR ALLIANCE', 'Join your crew.', 'Enter the details shared by your team captain.') %}
+      {% include "components/errors.html" %}
+
+      {% with form = Forms.teams.TeamJoinForm() %}
+        <form method="POST">
+          <div class="field">
+            {{ form.name.label() }}
+            {{ form.name() }}
+          </div>
+
+          <div class="field">
+            {{ form.password.label() }}
+            {{ form.password() }}
+          </div>
+
+          {{ form.submit(class="btn btn-primary w-100") }}
+          {{ form.nonce() }}
+        </form>
+      {% endwith %}
+
+      <p class="text-muted text-center" style="font-size:12px;margin-top:24px">
+        Starting something new? <a class="link" href="{{ url_for('teams.new') }}">{% trans %}Create a team{% endtrans %}</a>
+      </p>
+    {% endcall %}
+  </div>
+{% endblock %}

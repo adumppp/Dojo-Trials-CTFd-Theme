@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "macros/auth.html" import auth_card %}
+
+{% block content %}
+  <div class="container">
+    {% call auth_card('flag', 'BUILD YOUR ALLIANCE', 'Create your crew.', 'Every great team starts with a name.') %}
+      {% include "components/errors.html" %}
+
+      {% with form = Forms.teams.TeamRegisterForm() %}
+        {% from "macros/forms.html" import render_extra_fields %}
+        <form method="POST">
+          <div class="field">
+            {{ form.name.label() }}
+            {{ form.name() }}
+          </div>
+          <div class="field">
+            {{ form.password.label() }}
+            {{ form.password() }}
+          </div>
+
+          {{ render_extra_fields(form.extra) }}
+
+          <p class="text-muted" style="font-size:12px;margin-bottom:20px">After creating your team, share the team name and password with your teammates so they can join.</p>
+          {{ form.submit(class="btn btn-primary w-100") }}
+          {{ form.nonce() }}
+        </form>
+      {% endwith %}
+
+      <p class="text-muted text-center" style="font-size:12px;margin-top:24px">
+        Have a crew already? <a class="link" href="{{ url_for('teams.join') }}">{% trans %}Join a team{% endtrans %}</a>
+      </p>
+    {% endcall %}
+  </div>
+{% endblock %}

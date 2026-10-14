@@ -1,0 +1,111 @@
+<svg style="display:none" aria-hidden="true">
+  <symbol id="rn-flag" viewBox="0 0 24 24"><path d="M4 22V3m0 0c5-5 11 5 16 0v10c-5 5-11-5-16 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-trophy" viewBox="0 0 24 24"><path d="M8 3h8v7a4 4 0 0 1-8 0V3Zm0 2H4v3a4 4 0 0 0 4 4m8-7h4v3a4 4 0 0 1-4 4M12 14v5m-4 2h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-user" viewBox="0 0 24 24"><path d="M20 21v-2a6 6 0 0 0-6-6h-4a6 6 0 0 0-6 6v2M12 9a4 4 0 1 0 0-8 4 4 0 0 0 0 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.9M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8m8-7a4 4 0 0 1 0 7.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-9 12h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-settings" viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-logout" viewBox="0 0 24 24"><path d="M9 4H3v16h6m0-8h12m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-wrench" viewBox="0 0 24 24"><path d="m14 9 7-7m-3 3 3 3m-5-1 3 3M8 20a6 6 0 1 0 0-12 6 6 0 0 0 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="rn-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3Z" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="rn-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 11V7a4 4 0 0 1 8 0v4M12 15v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="rn-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="rn-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="rn-spark" viewBox="0 0 24 24"><path d="M12 2v6m0 8v6M2 12h6m8 0h6M5 5l4 4m6 6 4 4m0-14-4 4m-6 6-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+</svg>
+{% macro rn_icon(name, cls='icon') -%}
+<svg class="{{ cls }}" aria-hidden="true"><use href="#rn-{{ name }}"></use></svg>
+{%- endmacro %}
+<header class="border-b border-line bg-ink" style="position:sticky;top:0;z-index:40;background:#0c0e12;border-bottom:1px solid #272c35">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:20px;height:76px">
+    <a href="{{ url_for('views.static_html', route='/') }}" style="display:flex;align-items:center;gap:12px;flex:none">
+      {% if Configs.ctf_logo %}
+        <img src="{{ url_for('views.files', path=Configs.ctf_logo) }}" alt="Cyber Ronin" height="34">
+      {% else %}
+        <img src="/themes/cyber-ronin/static/assets/logo.png" alt="Cyber Ronin" style="height:44px;width:auto;max-width:none">
+        <span class="brand">CYBER <span>RONIN</span></span>
+      {% endif %}
+    </a>
+
+    <nav aria-label="Main navigation" class="d-none d-lg-flex" style="align-items:center;gap:28px">
+      {% for page in Plugins.user_menu_pages %}
+        <a class="nav-link" href="{{ page.route }}" {% if page.link_target %}target="{{ page.link_target }}"{% endif %}>{{ page.title }}</a>
+      {% endfor %}
+      <a class="nav-link {{ 'active' if request.endpoint == 'challenges.listing' }}" href="{{ url_for('challenges.listing') }}">{{ rn_icon('flag') }}{% trans %}Challenges{% endtrans %}</a>
+      <a class="nav-link {{ 'active' if request.path == '/rules' }}" href="/rules">{{ rn_icon('wrench') }}{% trans %}Rules{% endtrans %}</a>
+      {% if Configs.account_visibility != 'admins' and Configs.score_visibility != 'admins' %}
+        <a class="nav-link {{ 'active' if request.endpoint == 'scoreboard.listing' }}" href="{{ url_for('scoreboard.listing') }}">{{ rn_icon('trophy') }}{% trans %}Scoreboard{% endtrans %}</a>
+      {% endif %}
+      {% if Configs.account_visibility != 'admins' %}
+        <a class="nav-link {{ 'active' if request.endpoint == 'users.listing' }}" href="{{ url_for('users.listing') }}">{{ rn_icon('user') }}{% trans %}Players{% endtrans %}</a>
+        {% if Configs.user_mode == 'teams' %}
+          <a class="nav-link {{ 'active' if request.endpoint == 'teams.listing' }}" href="{{ url_for('teams.listing') }}">{{ rn_icon('users') }}{% trans %}Teams{% endtrans %}</a>
+        {% endif %}
+      {% endif %}
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      {% if authed() %}
+        <a href="{{ url_for('views.notifications') }}" class="btn btn-quiet" style="padding:8px" aria-label="Notifications">
+          {{ rn_icon('bell') }}<span x-data x-show="$store.unread_count > 0" x-text="$store.unread_count" class="badge bg-danger" style="margin-left:2px"></span>
+        </a>
+
+        <div class="dropdown">
+          <button class="btn btn-quiet dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="display:flex;align-items:center;gap:8px">
+            <span class="avatar avatar-red" style="width:30px;height:30px;font-size:11px">{{ User.name[:2] | upper }}</span>
+            <span class="d-none d-md-inline" style="font-size:12px">{{ User.name }}</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            {% if is_admin() %}
+              <li><a class="dropdown-item" href="{{ url_for('admin.view') }}">{% trans %}Admin Panel{% endtrans %}</a></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="{{ url_for('users.private') }}">{% trans %}My profile{% endtrans %}</a></li>
+            {% if Configs.user_mode == "teams" %}
+              <li><a class="dropdown-item" href="{{ url_for('teams.private') }}">{% trans %}My team{% endtrans %}</a></li>
+            {% endif %}
+            <li><a class="dropdown-item" href="{{ url_for('views.settings') }}">{% trans %}Settings{% endtrans %}</a></li>
+            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">{% trans %}Log out{% endtrans %}</a></li>
+          </ul>
+        </div>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="btn btn-quiet d-none d-md-inline-flex">{% trans %}Log in{% endtrans %}</a>
+        {% if registration_visible() %}
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary d-none d-md-inline-flex">{% trans %}Join the arena{% endtrans %} {{ rn_icon('arrow') }}</a>
+        {% endif %}
+      {% endif %}
+
+      <button class="btn btn-quiet d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#base-navbars" aria-controls="base-navbars" aria-expanded="false" aria-label="Toggle navigation" style="padding:8px">
+        {{ rn_icon('menu') }}
+      </button>
+    </div>
+  </div>
+
+  <nav class="collapse d-lg-none container mobile-menu" id="base-navbars" aria-label="Mobile navigation" style="flex-direction:column">
+    {% for page in Plugins.user_menu_pages %}
+      <a href="{{ page.route }}" {% if page.link_target %}target="{{ page.link_target }}"{% endif %}>{{ page.title }}</a>
+    {% endfor %}
+    <a href="{{ url_for('challenges.listing') }}">{% trans %}Challenges{% endtrans %}</a>
+    <a href="/rules">{% trans %}Rules{% endtrans %}</a>
+    {% if Configs.account_visibility != 'admins' and Configs.score_visibility != 'admins' %}
+      <a href="{{ url_for('scoreboard.listing') }}">{% trans %}Scoreboard{% endtrans %}</a>
+    {% endif %}
+    {% if Configs.account_visibility != 'admins' %}
+      <a href="{{ url_for('users.listing') }}">{% trans %}Players{% endtrans %}</a>
+      {% if Configs.user_mode == 'teams' %}
+        <a href="{{ url_for('teams.listing') }}">{% trans %}Teams{% endtrans %}</a>
+      {% endif %}
+    {% endif %}
+    {% if authed() %}
+      <a href="{{ url_for('users.private') }}">{% trans %}My profile{% endtrans %}</a>
+      {% if Configs.user_mode == "teams" %}<a href="{{ url_for('teams.private') }}">{% trans %}My team{% endtrans %}</a>{% endif %}
+      <a href="{{ url_for('views.settings') }}">{% trans %}Settings{% endtrans %}</a>
+      {% if is_admin() %}<a href="{{ url_for('admin.view') }}">{% trans %}Admin Panel{% endtrans %}</a>{% endif %}
+      <a href="{{ url_for('auth.logout') }}">{% trans %}Log out{% endtrans %}</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}">{% trans %}Log in{% endtrans %}</a>
+      {% if registration_visible() %}<a href="{{ url_for('auth.register') }}">{% trans %}Register{% endtrans %}</a>{% endif %}
+    {% endif %}
+  </nav>
+</header>
